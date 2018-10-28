@@ -21,8 +21,11 @@ public class Game {
 		this.success = false;
 		this.secretL = secretL;
 		ArrayList<Integer> pool = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+		int id;
 		for(int i = 0; i < secretL; i++) {
-			int id =  rand.nextInt(pool.size() - 1);
+			do {
+				id =  rand.nextInt(pool.size() - 1);
+			} while(pool.get(id) == 0);
 			this.secret = this.secret * 10 + pool.remove(id);
 		}
 	}

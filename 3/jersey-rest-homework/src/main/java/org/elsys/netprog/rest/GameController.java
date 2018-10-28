@@ -62,7 +62,6 @@ public class GameController {
 		}
 		if(status == 200) {
 			currGame.tryGuess(guess);
-			JSONParser parser = new JSONParser();
 			JSONResult = currGame.json();
 		}
 		return Response.status(status).entity(JSONResult).build();
