@@ -11,7 +11,7 @@ cssSelectors = {
 "exercise_2": " different > java.diffClass ",
 "exercise_3": " java > tag.class1.class2",
 "exercise_4": " css > item:nth-child(3) ",
-"exercise_5": " tag > java:nth-child(2) ",
+"exercise_5": " tag > java:nth-child(2).class1 ",
 "exercise_6": " item.class2 > item.class1, item.class1 > item.class2 ",
 "exercise_7": " different#diffId2 > java:last-child ",
 "exercise_8": " css > #someId "
