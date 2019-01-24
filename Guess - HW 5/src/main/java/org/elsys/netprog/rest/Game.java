@@ -1,7 +1,10 @@
 package org.elsys.netprog.rest;
 
 import java.util.Random;
-import java.nio.charset.Charset;
+
+import javax.xml.bind.DatatypeConverter;
+
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -15,18 +18,24 @@ public class Game {
 	
 	public Game(int length) {
 		this.length = length;
-		generate();
+		try {
+			generate();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void generate()
+	public void generate() throws UnsupportedEncodingException
 	{
 		try {
 			bytesOfInput = new byte[length];
 			new Random().nextBytes(bytesOfInput);
-			input = new String(bytesOfInput, Charset.forName("UTF-8"));
+			input = new String(bytesOfInput);
 			MessageDigest md;
 			md = MessageDigest.getInstance("MD5");
-			hash = new String(md.digest(bytesOfInput), Charset.forName("UTF-8"));
+			md.update(bytesOfInput);
+			hash = DatatypeConverter.printHexBinary(md.digest()).toUpperCase();
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,8 +43,8 @@ public class Game {
 		
 	}
 	
-	public boolean checkInput(String encoded) {
-		String guess = new String(Base64.getDecoder().decode(encoded), Charset.forName("UTF-8"));
+	public boolean checkInput(String encoded) throws UnsupportedEncodingException {
+		String guess = new String(Base64.getUrlDecoder().decode(encoded));
 		if(input.equals(guess)) {
 			generate();
 			return true;
@@ -52,7 +61,7 @@ public class Game {
 	}
 	
 	public String getHash() {
-		return Base64.getEncoder().encodeToString(hash.getBytes());
+		return Base64.getUrlEncoder().encodeToString(hash.getBytes());
 	}
 
 }
